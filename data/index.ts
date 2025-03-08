@@ -152,9 +152,9 @@ export const companies = [
   },
   {
     id: 3,
-    name: "HOSTINGER",
-    img: "/host.svg",
-    nameImg: "/hostName.svg",
+    name: "HUGGING FACE",
+    img: "/hugging.svg",
+    nameImg: "/huggingName.svg",
   },
   {
     id: 4,
