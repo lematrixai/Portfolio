@@ -5,6 +5,10 @@ import MagicButton from "./MagicButton";
 import Link from "next/link";
 
 const Footer = () => {
+
+  const date = new Date();
+  const year = date.getFullYear();
+  
   return (
     <footer className="w-full relative pt-20 pb-10 max-md:-pt-0" id="contact">
       {/* Background grid */}
@@ -38,7 +42,7 @@ const Footer = () => {
       {/* Bottom section */}
       <div className="relative z-10 flex mt-16 max-md:mt-8 md:flex-row flex-col justify-between items-center px-4">
         <p className="md:text-base text-sm md:font-normal font-light">
-          Copyright © 2024 Erick Lema
+          Copyright © {year} Erick Lema
         </p>
         <div className="flex items-center md:gap-3 gap-6 max-md:pt-3">
           {socialMedia.map((info) => (
