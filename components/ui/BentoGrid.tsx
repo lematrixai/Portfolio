@@ -1,13 +1,14 @@
-"use client"; // Ensure this is client-side for Next.js App Router
-
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IoCopyOutline } from "react-icons/io5";
-import { Player } from "@lottiefiles/react-lottie-player"; // Updated import
+import dynamic from "next/dynamic";
 import { cn } from "@/lib/utils";
 
 import { BackgroundGradientAnimation } from "./GradientBg";
 import GridGlobe from "./GridGlobe";
 import MagicButton from "../MagicButton";
+
+const Lottie = dynamic(() => import("react-lottie-player"), { ssr: false });
+
 
 export const BentoGrid = ({
   className,
@@ -27,7 +28,6 @@ export const BentoGrid = ({
     </div>
   );
 };
-
 export const BentoGridItem = ({
   className,
   id,
@@ -53,12 +53,22 @@ export const BentoGridItem = ({
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
-    const text = "erickbale360@gmail.com";
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    // Reset "copied" state after animation ends (e.g., 2 seconds)
-    setTimeout(() => setCopied(false), 2000);
+    // Ensure this code only runs in the browser
+    if (typeof window !== "undefined") {
+      const text = "erickbale360@gmail.com";
+      navigator.clipboard.writeText(text).then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      }).catch((err) => {
+        console.error("Failed to copy text: ", err);
+      });
+    }
   };
+
+  const [animationData, setAnimationData] = useState<object>();
+  useEffect(() => {
+    import("@/data/confetti.json").then(setAnimationData);
+  }, []);
 
   return (
     <div
@@ -150,11 +160,12 @@ export const BentoGridItem = ({
                   copied ? "block" : "hidden"
                 }`}
               >
-                <Player
-                  autoplay
-                  loop={false} // Play once when copied
-                  src="https://assets3.lottiefiles.com/packages/lf20_V7S5aT.json" // Confetti-like animation
+                <Lottie
+                  loop
+                  play
+                  animationData={animationData}
                   style={{ height: "200px", width: "400px" }}
+                  rendererSettings={{ preserveAspectRatio: "xMidYMid slice" }}
                 />
               </div>
 
